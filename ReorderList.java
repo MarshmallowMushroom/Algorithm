@@ -54,6 +54,7 @@ public class Solution {
             h = h.next;
             h.next = head2;
             head2 = head2.next;
+            h = h.next;
         }
         h.next = head1;
         return helper.next;
