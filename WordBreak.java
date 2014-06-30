@@ -20,5 +20,24 @@ The running time is O(2^n), why? because if we have an input string with all "a"
 
 The dynamic programming algorithm can reduce the run time to O(n^2) or O(n*size of dict).
 
-
+public class Solution {
+    public boolean wordBreak(String s, Set<String> dict) {
+        if (s.length() == 0)
+            return true;
+        boolean [] canSeperate = new boolean[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            if (dict.contains(s.substring(0, i+1)))
+                canSeperate[i] = true;
+            else {
+                for (int j = i; j > 0; j--) {
+                    if (dict.contains(s.substring(j, i+1)) && canSeperate[j-1]) {
+                        canSeperate[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return canSeperate[s.length() - 1];
+    }
+}
 
