@@ -1,3 +1,5 @@
+//The running time of this algorithm is 2^n for the brute force algorithm. Because we try each of the possible segmentation positions and the total number of that is 2^n
+
 public class Solution {
     public List<String> wordBreak(String s, Set<String> dict) {
         //same method, get the boolean array of canSeperate
