@@ -71,3 +71,59 @@ public class Solution {
         }
     }
 }
+
+/* without using the hashset to remove duplicate */
+public class Solution {
+    //use hashset to remove duplicates
+    public List<List<Integer>> threeSum(int[] num) {
+        Arrays.sort(num);
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        int i = 0;
+        while (i < num.length - 2) {
+            int i1 = num[i];
+            for (List<Integer> l : twoSum(num, i+1, 0 - i1)) {
+                List<Integer> tmp = new ArrayList<Integer>();
+                tmp.add(i1);
+                tmp.addAll(l);
+                result.add(tmp);
+            }
+            //find next non duplicate i1
+            int j = i + 1;
+            while (num[j] == num[i] && j < num.length - 2)
+                j++;
+            i = j;
+        }
+        return result;
+    }
+
+    
+    private List<List<Integer>> twoSum(int[] num, int start, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        int s = start;
+        int e = num.length - 1;
+        while(s < e) {
+            if (num[s] + num[e] == target) {
+                List<Integer> tmp = new ArrayList<Integer>();
+                tmp.add(num[s]);
+                tmp.add(num[e]);
+                result.add(tmp);
+                int i = s+1;
+                //find next non duplicate value
+                while(num[s] == num[i] && i < e)
+                    i++;
+                s = i;
+                i = e - 1;
+                while(num[e] == num[i] && s < i)
+                    e--;
+                e = i;
+            }
+            else if (num[s] + num[e] < target) {
+                s++;
+            }
+            else {
+                e--;
+            }
+        }
+        return result;
+    }
+}
