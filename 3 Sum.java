@@ -1,5 +1,5 @@
 /*
-Use hashSet to remove duplicate, running time nlogn
+Use hashSet to remove duplicate, running time O(n^2)
 */
 public class Solution {
     //use hashset to remove duplicates
