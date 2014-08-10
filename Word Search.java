@@ -1,35 +1,34 @@
+/*use depth first search, using the call stack to implement*/
+
 public class Solution {
     public boolean exist(char[][] board, String word) {
-        boolean [][] visited = new boolean [board.length][board[0].length];
+        if (board.length == 0)
+            return false;
+        boolean[][] visited = new boolean[board.length][board[0].length];
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[0].length; c++) {
-                if (bfs(board, visited, r, c, word))
+                if (dfs(r, c, word, board, visited))
                     return true;
             }
         }
         return false;
     }
     
-    private boolean bfs(char[][] board, boolean [][] visited, int row, int col, String word) {
-        if (board[row][col] != word.charAt(0) || visited[row][col]) {
+    public boolean dfs(int r, int c, String t, char[][] board, boolean[][] visited) {
+        if (t.length() == 0)
+            return true;
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length || visited[r][c] || t.charAt(0) != board[r][c])
             return false;
-        }
-        if (word.length() == 1) {
+        visited[r][c] = true;
+        if (dfs(r + 1, c, t.substring(1), board, visited))
             return true;
-        }
-        String next = word.substring(1);
-        visited[row][col] = true;
-        boolean found = false;
-        if (row - 1 >= 0 && bfs(board, visited, row - 1, col, next))
+        if (dfs(r - 1, c, t.substring(1), board, visited))
             return true;
-        if (row + 1 < board.length && bfs(board, visited, row + 1, col, next))
+        if (dfs(r, c + 1, t.substring(1), board, visited))
             return true;
-        if (col - 1 >= 0 && bfs(board, visited, row, col - 1, next))
+        if (dfs(r, c - 1, t.substring(1), board, visited))
             return true;
-        if (col + 1 < board[0].length && bfs(board, visited, row, col + 1, next))
-            return true;
-        //set the visited[row][col] back to false so it can be explored by the other bfs
-        visited[row][col] = false;
+        visited[r][c] = false;
         return false;
     }
 }
