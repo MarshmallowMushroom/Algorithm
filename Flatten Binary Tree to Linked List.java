@@ -62,3 +62,30 @@ public class Solution {
         return right;
     }
 }
+/* a iterative solution, keep merging the left subtree to the rightsub tree until all the left subtrees are merged*/
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void flatten(TreeNode root) {
+        while(root != null) {
+            if (root.left != null) {
+                TreeNode rightMost = root.left;
+                while(rightMost.right != null) { //find the right Most of the left sub tree
+                    rightMost = rightMost.right;
+                }
+                TreeNode tmp = root.right;
+                root.right = root.left;
+                root.left = null;
+                rightMost.right = tmp;
+            }
+            root = root.right;
+        }
+    }
+}
