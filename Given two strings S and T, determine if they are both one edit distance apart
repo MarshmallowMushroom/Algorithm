@@ -1,0 +1,24 @@
+/*Given two strings S and T, determine if they are both one edit distance apart*/
+
+public boolean oneDistance(String s, String t) {
+  if (s.equals(t) || Math.abs(s.length() - t.length()) > 1) {
+    return false;
+  }
+  //make s the longer one
+  if (s.length() < t.length()) {
+    String tmp = t;
+    t = s;
+    s = tmp;
+  }
+  for(int i=0; i<s.length(); i++) {
+    if (i >= t.length()) {
+      return true;
+    }
+    if (s.charAt(i) != t.charAt(i)) {
+      String s1 = s.substring(0, i) + t.charAt(i) + s.substring(i+1); //repace
+      String s2 = s.substring(0, i) + s.substring(i+1); //remove
+      return s1.equals(t) || s2.equals(t);
+    }
+  }
+  return false; // should not get here
+}
