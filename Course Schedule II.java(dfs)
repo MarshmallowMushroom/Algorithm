@@ -1,0 +1,64 @@
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        //this record out nodes
+        List<List<Integer>> adjMatrix = new ArrayList<List<Integer>>();
+        for(int i=0; i<numCourses; i++) {
+            adjMatrix.add(i, new ArrayList<Integer>());
+        }
+        List<Integer> startPoint = new ArrayList<Integer>();
+        Set<Integer> tmp = new HashSet<Integer>();
+        for (int i=0; i<prerequisites.length; i++) {
+            int from = prerequisites[i][1];
+            int to = prerequisites[i][0];
+            if (!adjMatrix.contains(to)) {
+                adjMatrix.get(from).add(to);
+            }
+            tmp.add(to);
+        }
+        for (int i=0; i<numCourses; i++) {
+            if (!tmp.contains(i)) {
+                startPoint.add(i);
+            }
+        }
+        List<Integer> result = new ArrayList<Integer>();
+        Set<Integer> finished = new HashSet<Integer>();
+        Set<Integer> visited = new HashSet<Integer>();
+        if (startPoint.size() == 0) {
+            return new int[0];
+        }
+        for(int i=0; i<startPoint.size(); i++) {
+            if (dfsHelper(adjMatrix, startPoint.get(i), visited, finished, result) == false) {
+                return new int[0];
+            }
+        }
+        if (result.size() != numCourses) {
+            return new int[0];
+        }
+        int[] rtn = new int[numCourses];
+        for(int i=0; i<result.size(); i++) {
+            rtn[i] = result.get(i);
+        }
+        return rtn;
+    }
+    
+    public boolean dfsHelper(List<List<Integer>> adjMatrix, int n, Set<Integer> visited, Set<Integer> finished, List<Integer> result) {
+        visited.add(n);
+        List<Integer> next = adjMatrix.get(n);
+        for(int i=0; i<next.size(); i++) {
+            if (visited.contains(next.get(i))) {
+                return false;
+            } else if (finished.contains(next.get(i))) {
+                continue;
+            } else {
+                boolean rtn = dfsHelper(adjMatrix, next.get(i), visited, finished, result);
+                if (rtn == false) {
+                    return false;
+                }
+            }
+        }
+        result.add(0, n);
+        finished.add(n);
+        visited.remove(n);
+        return true;
+    }
+}
