@@ -1,6 +1,13 @@
+import java.util.Arrays;
+
 /* this is relatively easy because you do not need to deal with duplicate */
 public class Solution {
-    public int threeSumClosest(int[] num, int target) {
+	public static void main(String[] args) {
+		int[] num = new int[]{1, 3, 2, 6};
+		int res = threeSumClosest(num, 3);
+		System.out.println(res);
+	}
+    public static int threeSumClosest(int[] num, int target) {
         Arrays.sort(num);
         int result = num[0] + num[1] + num[2];
         for (int i = 0; i < num.length - 2; i++) {
@@ -11,7 +18,7 @@ public class Solution {
         return result;
     }
     
-    public int twoSumClosest(int[] num, int target, int start) {
+    public static int twoSumClosest(int[] num, int target, int start) {
         int result = num[start] + num[start + 1]; //record the closest num to the target
         int s = start;
         int e = num.length - 1;
